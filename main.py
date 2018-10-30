@@ -22,7 +22,7 @@ class Graphe():
 
     def ajouterSommet(self, sommet):
         
-        # on s'assure que sommet n'est pas déjà dans le graphe
+        # on s'assure que sommet n'est jpas déjà dans le graphe
         if sommet not in self.graphe.keys() : 
             self.graphe[sommet] = {} # on initialise le sommet dans le graphe sans ces voisins
 
@@ -42,7 +42,7 @@ class Graphe():
 
         # on ajoute les aretes selon la probabilité p
         for i in self.graphe.keys():
-            for j in self.graphe.keys() :
+            for j in self.graphe.keys():
                 if random.random() > 0.5 and i != j:
                     self.ajouterArrete(i, j)
 
@@ -54,7 +54,9 @@ class Graphe():
         # on ajoute les aretes
         for i in self.graphe.keys():
             for j in self.graphe[i].keys():
-                if random.random() > 0.5 and i != j:  
+                # permet de ne pas avoir de doublons
+                # si l'arete existe déjà on ne l'a crée pas 
+                if visualisation.get_eid(j.nom, i.nom, directed=False, error=False) == -1 :
                     visualisation.add_edges([(i.nom,j.nom)])
 
     # retourn le degré du sommet
@@ -68,31 +70,63 @@ class Graphe():
             if i.couleur == "rouge" :
                 iter+= 1
         return iter
+    
+    # verifie si s2 est voisin de s1
+    def estVoisin(self, s1, s2):
+        if s2 in self.graphe[s1] : 
+            return True
+        else : 
+            return False
 
-    # verifie la sequence est 2-Destructrice
+    def getSommet(self, nom) :
+        for i in self.graphe :
+            if i.nom == nom :
+                return i
+        return None
+
+    # verifie que la sequence est 2-Destructrice
     def verifSequenceDestructrice(self, sequence):
-        pass
         
+        for i in range(len(sequence)) :
+            v = sequence[i]
+            nbVoisinsRougeApres = 0 # compteur de voisins rouges après v dans la séquence
+        
+            for j in range(i, len(sequence)):
+                if sequence[j].couleur == "red" and self.estVoisin(v,sequence[j]) :
+                    nbVoisinsRougeApres += 1
+                if nbVoisinsRougeApres > 2 :
+                    return False
+        
+        return True
 
+    def generationSequence(self) :
+        randomList = random.sample(range(0,self.n), self.n)
+        sequence = {}
 
+        for i in range(self.n):
+            sequence[i] = self.getSommet(randomList[i]) 
+
+        return sequence
 
 graphe = Graphe(10,0.5)
 
 visualisation = Graph()
 
 graphe.affichageGraphe(visualisation)
-# visualisation.add_vertices(6)s
-
-# visualisation.add_edges([(2,3),(3,4),(4,5),(5,3)])
-
-# print([ (sommet.nom,sommet.couleur) for sommet in graphe.graphe.keys()])
 
 # sequence aléatoire
-sequence = random.sample(range(0,10), 10)
+sequence = graphe.generationSequence()
 
-print(sequence)
+# verfication sequence destructrice
+result = graphe.verifSequenceDestructrice(sequence)
 
-graphe.verifSequenceDestructrice(sequence)
+print('sequence : ' +  ' ' .join(str(sequence[i].nom)+'('+sequence[i].couleur+')' for i in sequence))
+print('La séquence est 2-Destructrice : ' + str(result))
+
+print(' ' .join(str(i.nom) for i in graphe.graphe[graphe.getSommet(1)]))
+
+if graphe.getSommet(3) in graphe.graphe[graphe.getSommet(1)] :
+    print('lol')
 
 visual_style = {}
 
@@ -106,4 +140,6 @@ print(visualisation)
 
 layout = visualisation.layout("kk")
 
-plot(visualisation, layout = layout, vertex_label_color = "white")
+# plot(visualisation, layout = layout, vertex_label_color = "white")
+
+visualisation.write_dot("todo.dot")

@@ -1,0 +1,2 @@
+1. séquence 2-Destructrice pour la figure (b) -> sigma = (v8,v2,v7,v6,v1,v4,v3,v5)
+
