@@ -10,15 +10,20 @@ def grapheAleatoire(graphe) :
     # sequence aléatoire
     sequence = graphe.generationSequence()
 
+    sequenceTrouver = graphe.trouverSequence()
+    VerfiSequenceTrouver = graphe.verifSequenceDestructrice(sequenceTrouver)
+
+    print("Sequence trouver : " + ' '.join(str(i.nom) for i in sequenceTrouver))
+    if VerfiSequenceTrouver :
+        print("Le graphe possède une séquence 2-destructrice !")
+    else :
+        print("Le graphe ne possède pas de séquence 2-destructrice !")
     # verfication sequence destructrice
     result = graphe.verifSequenceDestructrice(sequence)
 
     print('sequence : ' +  ' ' .join(str(sequence[i].nom)+'('+sequence[i].couleur+')' for i in sequence))
     print('La séquence est 2-Destructrice : ' + str(result))
-    print(' ' .join(str(i.nom) for i in graphe.graphe[graphe.getSommet(1)]))
-
-    if graphe.getSommet(3) in graphe.graphe[graphe.getSommet(1)] :
-        print('lol')
+    # print(' ' .join(str(i.nom) for i in graphe.graphe[graphe.getSommet(1)]))
 
     visual_style = {}
     visualisation.vs['label'] = [ sommet.nom for sommet in graphe.graphe.keys()]
@@ -33,7 +38,7 @@ def main() :
 
     graphe = Graphe(10,0.5)
 
-    algo1(graphe)
+    grapheAleatoire(graphe)
 
     
 

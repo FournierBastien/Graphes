@@ -54,16 +54,23 @@ class Graphe():
                     visualisation.add_edges([(i.nom,j.nom)])
 
     # retourn le degré du sommet
-    def degreSommet(self, s):
-        return len(self.graphe.keys(s.nom))
+    def degreSommet(self, s, list = None):
+        return len(self.graphe[s])
 
     # retourne le nombre de voisins rouge
-    def voisinsRouge(self, s):
-        iter = 0
-        for i in self.graphe.keys(s):
-            if i.couleur == "rouge" :
-                iter+= 1
-        return iter
+    def voisinsRouge(self, s, list = None):
+        if list :
+            nbVoisins = 0
+            for i in list:
+                if i.couleur == "red" and i in self.graphe[s] :
+                    nbVoisins += 1   
+            return nbVoisins
+        else :
+            iter = 0
+            for i in self.graphe[s]:
+                if i.couleur == "rouge" :
+                    iter+= 1
+            return iter
     
     # verifie si s2 est voisin de s1
     def estVoisin(self, s1, s2):
@@ -99,5 +106,45 @@ class Graphe():
 
         for i in range(self.n):
             sequence[i] = self.getSommet(randomList[i]) 
+
+        return sequence
+
+    # trouver une sequence 2-destructrice pour le graphe
+    def trouverSequence(self) :
+        sequence = list()
+        listeSommet = list(self.graphe)
+
+        degreInferieur = True
+        while degreInferieur :
+            degreInferieur = False
+            for sommet in listeSommet :
+                # on regarde si le sommet a un nb de voisins rouge inferieur ou egale à 2 selon la listeSommet
+                # càd les sommets qui n'ont pas encore été disposé dans la séquence
+                # si c'est le cas, on met la var booleenne à True car on enleve un sommet de la liste
+                # ce qui met à jour les voisins des sommets de cette liste
+                if self.voisinsRouge(sommet, listeSommet) <= 2 :
+                    degreInferieur = True
+                    sequence.append(sommet)
+                    listeSommet.remove(sommet)
+
+
+        # on s'occupe ensuite des sommets qui possède plus de 2 voisins rouge
+        # on compte le nombre de voisins rouge qu'ils possèdent et ceux qui en ont le moins
+        # sont disposé dans la séquence en premier
+        sommetsRestants = list()
+        for sommet in listeSommet :
+            nbVoisinsRougeRestant = 0
+            
+            for i in listeSommet :
+                # on regarde si i est voisin de s
+                if i.couleur == "red" and i in self.graphe[sommet] and i != sommet: 
+                    nbVoisinsRougeRestant+= 1
+            sommetsRestants.append((sommet,nbVoisinsRougeRestant))
+        # on trie les valeurs des tuples selon le plus petit nombre de voisins rouge
+        sommetsRestants.sort(key=lambda tup: tup[1]) 
+
+        # on ajoute ensuite les sommets restants à la séquence
+        for i in sommetsRestants :
+            sequence.append(i[0])
 
         return sequence
