@@ -61,7 +61,7 @@ def trouverR(n,p,nbExperiences):
 
     while prob < 0.49 or prob > 0.51:
         prob = repeteRandom(n,p,varR,nbExperiences)
-        varR += 0.005
+        varR += 0.01 # vitesse d'incrementation
         print(" r = %.4f"%varR)
 
         if varR > 1 :
@@ -75,7 +75,7 @@ def main() :
 
     # grapheAleatoire(graphe)
     # repeteRandom(10,0.5,0.4236,100)
-    trouverR(50,0.7,50)
+    trouverR(100,0.1,400)
     
 
 
