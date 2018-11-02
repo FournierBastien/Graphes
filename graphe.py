@@ -7,11 +7,11 @@ from sommet import *
 
 class Graphe():
 
-    def __init__(self, n, p):
+    def __init__(self, n, p, r):
         self.graphe = {} # dictionnaire ou liste adjacence
         self.n = n # nombre de sommet -> aléatoire
         self.p = p  # probabilité
-
+        self.r = r
         self.intialiserGrapheAleatoire()
 
     def ajouterSommet(self, sommet):
@@ -27,8 +27,9 @@ class Graphe():
 
     def intialiserGrapheAleatoire(self):
 
+        # random.random suit une loi binomiale
         for i in range(self.n):
-            if random.random() > 0.5 :
+            if random.random() < self.r :
                 s = Sommet(i,"red")
             else :
                 s = Sommet(i,"blue")
@@ -37,7 +38,7 @@ class Graphe():
         # on ajoute les aretes selon la probabilité p
         for i in self.graphe.keys():
             for j in self.graphe.keys():
-                if random.gauss(0,1) > 0.5 and i != j:
+                if random.random() < self.p and i != j:
                     self.ajouterArrete(i, j)
 
     def affichageGraphe(self, visualisation):
