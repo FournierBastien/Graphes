@@ -1,5 +1,40 @@
 1. séquence 2-Destructrice pour la figure (b) -> sigma = (v8,v2,v7,v6,v1,v4,v3,v5)
 
+3. La fonction VerifSequenceDestructrice contenu dans la Classe Graphe permet 
+de vérifier si une séquence est 2-destructrice.
+Déroulement de la fonction :
+ - Pour chaque sommet de la séquence, on regarde si dans la séquence le sommet posssède 
+    un voisin de couleur rouge,
+    - si c'est le cas alors on incrémente le compteur nbVoisinsRougeApres, 
+        qui compte le nombre de voisins rouges d'un sommet
+        présent après lui dans la séquence
+    - si le compteur atteint une valeur supérieur à 2, cela veut dire qu'un sommet
+    possède plus de 2 voisins rouge qui lui succèdent dans la séquence, ce qui veut dire
+    que la séquence n'est pas 2-destructrice !
+Compléxité : O(n²)
+
 
 4. Comment construire une séquence 2-destructrice ?
-    ->
+    -> On initialiser une variable booléenne nous indiquant si la liste des Sommets 
+    a été modifié par True
+    -> pour chaque Sommet on regarde s'il possède un nombre de voisins rouge 
+    inferieur ou égale à 2 dans les Sommets qui les succèdent dans la séquence,
+    on met la var booleenne à True car on enleve un sommet de la liste 
+    ce qui met à jour les voisins des sommets de cette liste et on ajoute le sommet
+    supprimer à la séquence
+
+    -> une fois terminer, il ne reste plus que les sommets ayant plus de 2 sommets rouges
+    comme voisins. On compte le nombre de voisins rouges que chaque Sommet possède
+    et ceux qui ont le moins de voisins rouges sont ajouté en premier dans la séquence.
+    
+
+
+
+Implémentation : 
+Nous avons choisit d'implémenter le Graphe sous la forme de la Classe Graphe contenant une liste d'adjacence
+d'objet Sommet contenant simplement le nom et la couleur du Sommet, la Classe Graphe contient aussi le nombre de sommet, la variable de 
+probabilité utilisé, la variable r et toutes les fonctions permettant la manipulation d'un Graphe.
+
+Pour l'Implémentation de la méthode permettant de découvrir si une séquence 2-destructrice, nous avons utilisé une librairie nommé igraph
+pour nous aider à mieux visualiser le graphe et vérifier si notre programme de verification de séquence 2-destructrice fonctionne.
+
