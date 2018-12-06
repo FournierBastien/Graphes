@@ -3,7 +3,7 @@ import numpy as np
 
 from igraph import *
 
-from sommet import *
+# from sommet import *
 
 
 class Graphe():
@@ -40,20 +40,11 @@ class Graphe():
 
     def intialiserGrapheAleatoire(self):
 
-        self.couleurs = np.random.binomial(1,self.r,self.n)
-        # print(self.couleurs)
-        
+        self.couleurs = np.random.binomial(1,self.r,self.n)    
         
         # random.random suit une loi binomiale
         for i in range(self.n):
-            self.graphe.append((i,list()))
-            # if couleurs[i] == 1 :
-            #     s = Sommet(i,"red")
-            # else :
-            #     s = Sommet(i,"blue")
-            # self.ajouterSommet(s)
-        # print(self.graphe)
-            
+            self.graphe.append((i,list()))  
         
         voisins_aleatoire = np.random.binomial(1, self.p, int(self.n*(self.n-1)/2))
         iter = 0
@@ -63,18 +54,6 @@ class Graphe():
                     self.graphe[i][1].append(j)
                     self.graphe[j][1].append(i)
                 iter += 1
-
-        # print(self.graphe)
-        # exit()
-        """
-        voisins_aleatoire = np.random.binomial(1, self.p, self.n*self.n)
-        # on ajoute les aretes selon la probabilité p
-        for i in self.graphe.keys():
-            
-            for j in self.graphe.keys():
-                if i != j and voisins_aleatoire[i.nom*j.nom+j.nom] == 1:
-                    self.ajouterArrete(i, j)
-        """
 
 
     def affichageGraphe(self, visualisation):
@@ -89,10 +68,6 @@ class Graphe():
                 # si l'arete existe déjà on ne l'a crée pas 
                 if visualisation.get_eid(j.nom, i.nom, directed=False, error=False) == -1 :
                     visualisation.add_edges([(i.nom,j.nom)])
-
-    # retourn le degré du sommet
-    def degreSommet(self, s, list = None):
-        return len(self.graphe[s])
 
     # retourne le nombre de voisins rouge
     def voisinsRouge(self, s, list = None):
@@ -115,12 +90,6 @@ class Graphe():
             return True
         else : 
             return False
-
-    def getSommet(self, nom) :
-        for i in self.graphe :
-            if i.nom == nom :
-                return i
-        return None
 
     # verifie que la sequence est 2-Destructrice
     def verifSequenceDestructrice(self, sequence):
@@ -150,7 +119,8 @@ class Graphe():
         sequence = {}
 
         for i in range(self.n):
-            sequence[i] = self.getSommet(randomList[i]) 
+            pass
+            # sequence[i] = self.getSommet(randomList[i]) 
 
         return sequence
 
@@ -181,7 +151,6 @@ class Graphe():
         
         while fin == False :
             fin = True
-            # print(len(listeSommet))
             for sommet in listeSommet :
                 nbVoisinsRougeRestant = 0
                 
@@ -191,26 +160,17 @@ class Graphe():
                     if i != sommet and self.couleurs[i] == 1 and self.estVoisin(sommet,i) : 
                         nbVoisinsRougeRestant += 1
                 if nbVoisinsRougeRestant <= 2 :
-                    # it += 1
-                    # print(it)
                     fin = False
                     sequence.append(sommet)
                     listeSommet.remove(sommet)
-            # print(fin)
+            
             
         return sequence
-                    # else :
-                    #     sommetsRestants.append((sommet,nbVoisinsRougeRestant))
-                
-                    # break # on quitte la boucle
         
         # on trie les valeurs des tuples selon le plus petit nombre de voisins rouge
-        # sommetsRestants.sort(key=lambda tup: tup[1]) 
 
         # on ajoute ensuite les sommets restants à la séquence
-        # for i in sommetsRestants :
-        #     sequence.append(i[0])
-        
+    
         # on teste ensuite la validité de cette séquence 
         # si elle n'est pas 2-destructrice, on teste toutes les combinaisons
 

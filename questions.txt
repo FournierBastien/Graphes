@@ -38,3 +38,16 @@ probabilité utilisé, la variable r et toutes les fonctions permettant la manip
 Pour l'Implémentation de la méthode permettant de découvrir si une séquence 2-destructrice, nous avons utilisé une librairie nommé igraph
 pour nous aider à mieux visualiser le graphe et vérifier si notre programme de verification de séquence 2-destructrice fonctionne.
 
+
+
+
+            0.1     0.3
+n = 50     65.54    
+n = 100    32.07
+
+n = 50 p = 0.3 r = 23.01
+n = 100 p = 0.3 r = 11.72
+n = 50 p = 0.5 r = 14.94
+n = 100 p = 0.5 r = 7.40
+n = 50 p = 0.7 r = 10.80
+n = 100 p = 0.7 r = 5.63
