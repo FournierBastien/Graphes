@@ -9,40 +9,29 @@ from igraph import *
 class Graphe():
 
     def __init__(self, n, p, r):
-        self.graphe = [] # dictionnaire ou liste adjacence
-        self.n = n # nombre de sommet -> aléatoire
-        self.p = p  # probabilité -> attribution des voisins
-        self.r = r # probabilité -> attribution des couleurs
+        self.graphe = [] # liste adjacence
+        self.n = n # nombre de sommet 
+        self.p = p  # probabilité pour l'attribution des voisins
+        self.r = r # probabilité pour l'attribution des couleurs
         self.couleurs = []
         self.intialiserGrapheAleatoire()
-
-    def ajouterSommet(self, sommet):
-        
-        # on s'assure que sommet n'est jpas déjà dans le graphe
-        if sommet not in self.graphe.keys() : 
-            self.graphe = {} # on initialise le sommet dans le graphe sans ces voisins
-
-    def afficher(self):
-
-        for i in self.graphe.keys():
-            print("Sommets :" + str(i.nom) + " Voisins :")
-            
-            for j in self.graphe[i].keys():
-                print(" " + str(j.nom))
-                
-            print("\n")
 
     def ajouterArrete(self, a, b):
               
         self.graphe[a][1].append(b)
         self.graphe[b][1].append(a)
         
-
+    """
+    Initialisation du graphe selon une loi binomiale pour les couleurs de chaque sommet
+    et une loi binomiale pour les arêtes
+    La fonction np.random.binomiale nous renvoie un tableau comprenant le resultat d'experience d'une loi binomiale selon
+    l'interval des valeurs, ici 0 ou 1, la probabilité d'avoir 1 dans le tableau (self.r ou self.p) et le nombre d'experience
+    à effectuer, c'est à dire la taille du tableau de sortie
+    """
     def intialiserGrapheAleatoire(self):
 
         self.couleurs = np.random.binomial(1,self.r,self.n)    
         
-        # random.random suit une loi binomiale
         for i in range(self.n):
             self.graphe.append((i,list()))  
         
@@ -57,19 +46,21 @@ class Graphe():
 
 
     def affichageGraphe(self, visualisation):
+        pass
+        # # on ajoute les sommets
+        # visualisation.add_vertices(self.n)
 
-        # on ajoute les sommets
-        visualisation.add_vertices(self.n)
+        # # on ajoute les aretes
+        # for i in self.graphe.keys():
+        #     for j in self.graphe[i].keys():
+        #         # permet de ne pas avoir de doublons
+        #         # si l'arete existe déjà on ne l'a crée pas 
+        #         if visualisation.get_eid(j.nom, i.nom, directed=False, error=False) == -1 :
+        #             visualisation.add_edges([(i.nom,j.nom)])
 
-        # on ajoute les aretes
-        for i in self.graphe.keys():
-            for j in self.graphe[i].keys():
-                # permet de ne pas avoir de doublons
-                # si l'arete existe déjà on ne l'a crée pas 
-                if visualisation.get_eid(j.nom, i.nom, directed=False, error=False) == -1 :
-                    visualisation.add_edges([(i.nom,j.nom)])
-
-    # retourne le nombre de voisins rouge
+    """
+    retourne le nombre de voisins rouge de s au total ou dans la liste donnée en paramètre
+    """
     def voisinsRouge(self, s, list = None):
         if list :
             nbVoisins = 0
@@ -84,14 +75,16 @@ class Graphe():
                     iter+= 1
             return iter
     
-    # verifie si s2 est voisin de s1
+    """
+    verifie si s2 est voisin de s1
+    """
     def estVoisin(self, s1, s2):
-        if s2 in self.graphe[s1][1] : 
-            return True
-        else : 
-            return False
+        if s2 in self.graphe[s1][1] : return True
+        else : return False
 
-    # verifie que la sequence est 2-Destructrice
+    """
+    verifie que la sequence est 2-Destructrice
+    """
     def verifSequenceDestructrice(self, sequence):
         
         """
@@ -114,41 +107,50 @@ class Graphe():
         
         return True
 
+    """
+    Génération aléatoire d'une séquence
+    """
     def generationSequence(self) :
         randomList = random.sample(range(0,self.n), self.n)
         sequence = {}
 
         for i in range(self.n):
-            pass
-            # sequence[i] = self.getSommet(randomList[i]) 
+            sequence[i] = randomList[i] 
 
         return sequence
 
-    # trouver une sequence 2-destructrice pour le graphe
+    """
+    trouver une sequence 2-destructrice dans le graphe
+    """
     def trouverSequence(self) :
         sequence = list()
         listeSommet = [i for i in range(self.n)]
 
         degreInferieur = True
+
+        """
+        on regarde si le sommet a un nb de voisins rouge inferieur ou egale à 2 selon la listeSommet
+        c'est à dire les sommets qui n'ont pas encore été disposé dans la séquence
+        si c'est le cas, on met la var booleenne à True car on enleve un sommet de la liste
+        et on réitère la boucle jusqu'à ce qu'on n'ajoute plus de sommet à la séquence
+        """
         while degreInferieur :
             degreInferieur = False
             for i in listeSommet :
-                # on regarde si le sommet a un nb de voisins rouge inferieur ou egale à 2 selon la listeSommet
-                # càd les sommets qui n'ont pas encore été disposé dans la séquence
-                # si c'est le cas, on met la var booleenne à True car on enleve un sommet de la liste
-                # ce qui met à jour les voisins des sommets de cette liste
                 if self.voisinsRouge(i, listeSommet) <= 2 :
                     degreInferieur = True
                     sequence.append(i)
                     listeSommet.remove(i)
 
-        # on s'occupe ensuite des sommets qui possède plus de 2 voisins rouge
-        # on compte le nombre de voisins rouge qu'ils possèdent et ceux qui en ont le moins
-        # sont disposé dans la séquence en premier
-        # sommetsRestants = list()
+
+        """
+        On s'occupe ensuite des sommets qui possèdent plus de 2 voisins rouge.
+        On va compter le nombre de voisins rouge que possède un sommet dans la liste des sommets n'ayant pas
+        été ajouté à la séquence. Si un sommet possède au plus de 2 voisins rouge restant alors on l'ajoute à la séquence et on réitère la boucle
+        sinon on termine la boucle
+        """
+
         fin = False
-        it = 0
-        
         while fin == False :
             fin = True
             for sommet in listeSommet :
@@ -163,16 +165,5 @@ class Graphe():
                     fin = False
                     sequence.append(sommet)
                     listeSommet.remove(sommet)
-            
-            
         return sequence
-        
-        # on trie les valeurs des tuples selon le plus petit nombre de voisins rouge
-
-        # on ajoute ensuite les sommets restants à la séquence
-    
-        # on teste ensuite la validité de cette séquence 
-        # si elle n'est pas 2-destructrice, on teste toutes les combinaisons
-
-
         

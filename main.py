@@ -65,6 +65,13 @@ def trouverR(n,p,nbExperiences):
     varR = 0.0 # valeur particuliere de r à trouver
     inc = 0.01
 
+
+    """
+    # version dichotomique
+    # Ici, on fait varier la variable sur deux intervalles
+    # la variable r qui obtient une probabilité plus proche de 0.5 est sélectionner
+    # puis on recrée un nouvel intervalle à partir de cette variable r
+    
     interval_r = 1
     interval_sup_r = interval_r
     interval_inf_r = interval_r/2
@@ -95,7 +102,13 @@ def trouverR(n,p,nbExperiences):
     #     if prob_inf > 0.4951 and prob_inf < 0.5051 :
     #         print("n = " + str(n) + " p = "+ str(p) + " r = %.2f"%(interval_inf_r*100))
     #         return
-    
+    """
+
+    # version itérative
+    # Ici, on fait varier la valeur varR pour trouver une valeur de la variable prob proche de 0.5
+    # Si prob est supérieur à 0.6, l'incrémentation se fait plus rapidement
+    # Si prob est inférieur à 0.6, on diminue le rithme d'incrémentation pour être plus précis
+    # Si prob est inférieur à 0.4, on incrémente à l'envers pour revenir vers des valeur de prob proche de 0.5
     while prob < 0.495 or prob > 0.505:
         prob = repeteRandom(n,p,varR,nbExperiences)
         
@@ -115,6 +128,8 @@ def trouverR(n,p,nbExperiences):
 
 def main() :
 
+    trouverR(50,0.1,800)
+    trouverR(100,0.1,800)
     trouverR(50,0.3,800)
     trouverR(100,0.3,800)
     trouverR(50,0.5,800)
