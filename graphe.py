@@ -141,7 +141,19 @@ class Graphe():
                     sequence.append(sommet)
                     listeSommet.remove(sommet)
         return sequence
-    
+    """
+    Qui étant donné n,p,r en paramètre, retourne la probabilité q'un graphe où chaque sommet a une probabilité r d'être rouge, 
+    admette un séquence 2-destructrice.
+    """
+    def testA(self) :
+        pass
+
+    """
+    Qui étant donné n,p,r en paramètre, retourne la valeur de r pour laquelle si la proportion de sommets rouges est r, alors le graphe a une probabilité proche de 1/2
+    d'avoir une séquence 2-destructrice
+    """
+    def testB(self) :
+        pass
 
 
     def affichageGrapheAleatoire(self):

@@ -1,5 +1,6 @@
 #-*- coding: utf_8 -*-
 from graphe import *
+import time
 
 
 # graphe aleatoire où chaque arete a une probabilité p d'appartenir au graphe
@@ -8,7 +9,7 @@ def visualisationGrapheAleatoire(n,p,r) :
     graphe = Graphe()
     graphe.intialiserGrapheAleatoire(n,p,r)
     graphe.affichageGrapheAleatoire()
-    
+
 
 # calcul de la probabilite d'avoir une séquence 2-destructrice
 def repeteRandom(n,p,r,nbExperiences):
@@ -72,9 +73,6 @@ def trouverRDichotomie(n,p,nbExperiences):
         print("n = " + str(n) + " p = "+ str(p) + " r = %.2f"%(interval_inf_r*100))
         return
     
-
-
-
     
 """
 version itérative
@@ -105,7 +103,7 @@ def trouverRIteratif(n,p,nbExperiences) :
 
     print("n = " + str(n) + " p = "+ str(p) + " r = %.2f"%(varR*100))
 
-def algoTrouverLesR() :
+def algoTrouverLesRD() :
     trouverRDichotomie(50,0.1,800)
     trouverRDichotomie(100,0.1,800)
     trouverRDichotomie(50,0.3,800)
@@ -115,11 +113,29 @@ def algoTrouverLesR() :
     trouverRDichotomie(50,0.7,800)
     trouverRDichotomie(100,0.7,800)
 
+def algoTrouverLesRI() :
+    trouverRIteratif(50,0.1,800)
+    trouverRIteratif(100,0.1,800)
+    trouverRIteratif(50,0.3,800)
+    trouverRIteratif(100,0.3,800)
+    trouverRIteratif(50,0.5,800)
+    trouverRIteratif(100,0.5,800)
+    trouverRIteratif(50,0.7,800)
+    trouverRIteratif(100,0.7,800)
+
 def main() :
 
-    visualisationGrapheAleatoire(10,0.7,0.3)
+    # visualisationGrapheAleatoire(10,0.7,0.3)
 
-    # algoTrouverLesR()
+    debutD = time.time()
+    algoTrouverLesRD()
+    finD = time.time()
+    print("temps Dichotomoie : %.8f" %(finD - debutD))
+
+    debutR = time.time()
+    algoTrouverLesRI()
+    finR = time.time()
+    print("temps Iteratif : %.8f" %(finR - debutR))
     
 
 main()
