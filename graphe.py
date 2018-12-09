@@ -3,18 +3,15 @@ import numpy as np
 
 from igraph import *
 
-# from sommet import *
-
 
 class Graphe():
 
-    def __init__(self, n, p, r):
+    def __init__(self):
         self.graphe = [] # liste adjacence
-        self.n = n # nombre de sommet 
-        self.p = p  # probabilité pour l'attribution des voisins
-        self.r = r # probabilité pour l'attribution des couleurs
+        self.n = None # nombre de sommet 
+        self.p = None  # probabilité pour l'attribution des voisins
+        self.r = None # probabilité pour l'attribution des couleurs
         self.couleurs = []
-        self.intialiserGrapheAleatoire()
 
     def ajouterArrete(self, a, b):
               
@@ -28,7 +25,11 @@ class Graphe():
     l'interval des valeurs, ici 0 ou 1, la probabilité d'avoir 1 dans le tableau (self.r ou self.p) et le nombre d'experience
     à effectuer, c'est à dire la taille du tableau de sortie
     """
-    def intialiserGrapheAleatoire(self):
+    def intialiserGrapheAleatoire(self, n, p, r):
+
+        self.n = n
+        self.p = p
+        self.r = r
 
         self.couleurs = np.random.binomial(1,self.r,self.n)    
         
@@ -43,20 +44,6 @@ class Graphe():
                     self.graphe[i][1].append(j)
                     self.graphe[j][1].append(i)
                 iter += 1
-
-
-    def affichageGraphe(self, visualisation):
-        pass
-        # # on ajoute les sommets
-        # visualisation.add_vertices(self.n)
-
-        # # on ajoute les aretes
-        # for i in self.graphe.keys():
-        #     for j in self.graphe[i].keys():
-        #         # permet de ne pas avoir de doublons
-        #         # si l'arete existe déjà on ne l'a crée pas 
-        #         if visualisation.get_eid(j.nom, i.nom, directed=False, error=False) == -1 :
-        #             visualisation.add_edges([(i.nom,j.nom)])
 
     """
     retourne le nombre de voisins rouge de s au total ou dans la liste donnée en paramètre
@@ -108,18 +95,6 @@ class Graphe():
         return True
 
     """
-    Génération aléatoire d'une séquence
-    """
-    def generationSequence(self) :
-        randomList = random.sample(range(0,self.n), self.n)
-        sequence = {}
-
-        for i in range(self.n):
-            sequence[i] = randomList[i] 
-
-        return sequence
-
-    """
     trouver une sequence 2-destructrice dans le graphe
     """
     def trouverSequence(self) :
@@ -166,4 +141,45 @@ class Graphe():
                     sequence.append(sommet)
                     listeSommet.remove(sommet)
         return sequence
+    
+
+
+    def affichageGrapheAleatoire(self):
+
+        visualisation = Graph()
+
+        # on ajoute les sommets
+        visualisation.add_vertices(self.n)
+
+        # on ajoute les aretes
+        for i in range(self.n) :
+            for j in range(i+1,self.n):
+                if j in self.graphe[i][1] :    
+                    visualisation.add_edges([(i,j)])
+                # permet de ne pas avoir de doublons
+                # si l'arete existe déjà on ne l'a crée pas 
+                # if visualisation.get_eid(j, i, directed=False, error=False) == -1 :
+
+        # sequence aléatoire
+        sequence = random.sample(range(0,self.n), self.n)
+
+        result = self.verifSequenceDestructrice(sequence)
+
+        print('sequence : ' +  ' ' .join(str(sequence[i]) for i in sequence))
+        print('La séquence est 2-Destructrice : ' + str(result))
+
+        sequenceTrouver = self.trouverSequence()
+        VerfiSequenceTrouver = self.verifSequenceDestructrice(sequenceTrouver)
+
+        print("Sequence trouver : " + ' '.join(str(i) for i in sequenceTrouver))
+        if VerfiSequenceTrouver : print("Le graphe possède une séquence 2-destructrice !")
+        else : print("Le graphe ne possède pas de séquence 2-destructrice !")
+
+        visual_style = {}
+        visualisation.vs['label'] = range(self.n)
+        visualisation.vs['color'] = [ "red" if couleur == 1 else "blue" for couleur in self.couleurs]
+        layout = visualisation.layout("kk")
+        
+        plot(visualisation, layout = layout, vertex_label_color = "white")
+        visualisation.write_dot("todo.dot")
         

@@ -31,8 +31,8 @@ Compléxité : O(n²)
 
 
 Implémentation : 
-Nous avons choisit d'implémenter le Graphe sous la forme de la Classe Graphe contenant une liste d'adjacence
-d'objet Sommet contenant simplement le nom et la couleur du Sommet, la Classe Graphe contient aussi le nombre de sommet, la variable de 
+Nous avons choisit d'implémenter le Graphe sous la forme d'une Classe Graphe contenant une liste d'adjacence d'Entiers représentants les Sommets du graphes, le nombre de
+sommets du Graphe, la liste des couleurs permettant d'attribuer ou non la couleur rouge à chaque sommet i si la valeur est égale à 1 à l'indice i.
 probabilité utilisé, la variable r et toutes les fonctions permettant la manipulation d'un Graphe.
 
 Pour l'Implémentation de la méthode permettant de découvrir si une séquence 2-destructrice, nous avons utilisé une librairie nommé igraph
@@ -40,14 +40,24 @@ pour nous aider à mieux visualiser le graphe et vérifier si notre programme de
 
 
 
+Résultats de la recherche iterative
 
-            0.1     0.3
-n = 50     65.54    
-n = 100    32.07
-
+n = 50 p = 0.1 r =65.54   
+n = 100 p = 0.1 r = 32.09
 n = 50 p = 0.3 r = 23.01
 n = 100 p = 0.3 r = 11.72
 n = 50 p = 0.5 r = 14.94
 n = 100 p = 0.5 r = 7.40
 n = 50 p = 0.7 r = 10.80
 n = 100 p = 0.7 r = 5.63
+
+
+Résultats de la recherche dichotomique
+n = 50  p = 0.1  r = 65.54    
+n = 100 p = 0.1  r = 32.13
+n = 50 p = 0.3 r = 23.39
+n = 100 p = 0.3 r = 11.62
+n = 50 p = 0.5 r = 14.62
+n = 100 p = 0.5 r = 7.37
+n = 50 p = 0.7 r = 10.52
+n = 100 p = 0.7 r = 5.37
