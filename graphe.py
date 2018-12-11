@@ -1,7 +1,7 @@
 import random
 import numpy as np
 
-from igraph import *
+# from igraph import *
 
 
 class Graphe():
@@ -39,6 +39,7 @@ class Graphe():
         voisins_aleatoire = np.random.binomial(1, self.p, int(self.n*(self.n-1)/2))
         iter = 0
         for i in range(self.n) :
+            # on ne veut aucun doublon
             for j in range(i+1,self.n):
                 if voisins_aleatoire[iter] == 1 :
                     self.graphe[i][1].append(j)
@@ -141,57 +142,44 @@ class Graphe():
                     sequence.append(sommet)
                     listeSommet.remove(sommet)
         return sequence
-    """
-    Qui étant donné n,p,r en paramètre, retourne la probabilité q'un graphe où chaque sommet a une probabilité r d'être rouge, 
-    admette un séquence 2-destructrice.
-    """
-    def testA(self) :
-        pass
+    
+    # fonction optionnelle de visualisation de graphe
+    # def affichageGrapheAleatoire(self):
 
-    """
-    Qui étant donné n,p,r en paramètre, retourne la valeur de r pour laquelle si la proportion de sommets rouges est r, alors le graphe a une probabilité proche de 1/2
-    d'avoir une séquence 2-destructrice
-    """
-    def testB(self) :
-        pass
+    #     visualisation = Graph()
 
+    #     # on ajoute les sommets
+    #     visualisation.add_vertices(self.n)
 
-    def affichageGrapheAleatoire(self):
+    #     # on ajoute les aretes
+    #     for i in range(self.n) :
+    #         for j in range(i+1,self.n):
+    #             if j in self.graphe[i][1] :    
+    #                 visualisation.add_edges([(i,j)])
+    #             # permet de ne pas avoir de doublons
+    #             # si l'arete existe déjà on ne l'a crée pas 
+    #             # if visualisation.get_eid(j, i, directed=False, error=False) == -1 :
 
-        visualisation = Graph()
+    #     # sequence aléatoire
+    #     sequence = random.sample(range(0,self.n), self.n)
 
-        # on ajoute les sommets
-        visualisation.add_vertices(self.n)
+    #     result = self.verifSequenceDestructrice(sequence)
 
-        # on ajoute les aretes
-        for i in range(self.n) :
-            for j in range(i+1,self.n):
-                if j in self.graphe[i][1] :    
-                    visualisation.add_edges([(i,j)])
-                # permet de ne pas avoir de doublons
-                # si l'arete existe déjà on ne l'a crée pas 
-                # if visualisation.get_eid(j, i, directed=False, error=False) == -1 :
+    #     print('sequence : ' +  ' ' .join(str(sequence[i]) for i in sequence))
+    #     print('La séquence est 2-Destructrice : ' + str(result))
 
-        # sequence aléatoire
-        sequence = random.sample(range(0,self.n), self.n)
+    #     sequenceTrouver = self.trouverSequence()
+    #     VerfiSequenceTrouver = self.verifSequenceDestructrice(sequenceTrouver)
 
-        result = self.verifSequenceDestructrice(sequence)
+    #     print("Sequence trouver : " + ' '.join(str(i) for i in sequenceTrouver))
+    #     if VerfiSequenceTrouver : print("Le graphe possède une séquence 2-destructrice !")
+    #     else : print("Le graphe ne possède pas de séquence 2-destructrice !")
 
-        print('sequence : ' +  ' ' .join(str(sequence[i]) for i in sequence))
-        print('La séquence est 2-Destructrice : ' + str(result))
-
-        sequenceTrouver = self.trouverSequence()
-        VerfiSequenceTrouver = self.verifSequenceDestructrice(sequenceTrouver)
-
-        print("Sequence trouver : " + ' '.join(str(i) for i in sequenceTrouver))
-        if VerfiSequenceTrouver : print("Le graphe possède une séquence 2-destructrice !")
-        else : print("Le graphe ne possède pas de séquence 2-destructrice !")
-
-        visual_style = {}
-        visualisation.vs['label'] = range(self.n)
-        visualisation.vs['color'] = [ "red" if couleur == 1 else "blue" for couleur in self.couleurs]
-        layout = visualisation.layout("kk")
+    #     visual_style = {}
+    #     visualisation.vs['label'] = range(self.n)
+    #     visualisation.vs['color'] = [ "red" if couleur == 1 else "blue" for couleur in self.couleurs]
+    #     layout = visualisation.layout("kk")
         
-        plot(visualisation, layout = layout, vertex_label_color = "white")
-        visualisation.write_dot("todo.dot")
+    #     plot(visualisation, layout = layout, vertex_label_color = "white")
+    #     visualisation.write_dot("todo.dot")
         

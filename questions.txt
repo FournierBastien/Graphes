@@ -44,7 +44,7 @@ La génération d'un graphe aléatoire selon p et r se fait par la fonction "int
 
 
 Résultats de la recherche iterative
-
+1er essai :
 n = 50 p = 0.1 r = 65.54   
 n = 100 p = 0.1 r = 32.09
 n = 50 p = 0.3 r = 23.01
@@ -54,6 +54,7 @@ n = 100 p = 0.5 r = 7.40
 n = 50 p = 0.7 r = 10.80
 n = 100 p = 0.7 r = 5.63
 
+2ème essai :
 n = 50 p = 0.1 r = 64.65
 n = 100 p = 0.1 r = 32.97
 n = 50 p = 0.3 r = 22.99
@@ -62,10 +63,12 @@ n = 50 p = 0.5 r = 14.99
 n = 100 p = 0.5 r = 7.45
 n = 50 p = 0.7 r = 11.01
 n = 100 p = 0.7 r = 5.41
-temps Iteratif : 1000.05290031
+temps Iteratif : 1000.05290031 secondes
 
 
 Résultats de la recherche dichotomique
+
+1er essai :
 n = 50  p = 0.1  r = 65.54    
 n = 100 p = 0.1  r = 32.13
 n = 50 p = 0.3 r = 23.39
@@ -75,6 +78,7 @@ n = 100 p = 0.5 r = 7.37
 n = 50 p = 0.7 r = 10.52
 n = 100 p = 0.7 r = 5.37
 
+2ème essai :
 n = 50  p = 0.1  r = 65.82  
 n = 100 p = 0.1  r = 32.40
 n = 50 p = 0.3 r = 23.90
@@ -83,4 +87,4 @@ n = 50 p = 0.5 r = 14.61
 n = 100 p = 0.5 r = 7.37
 n = 50 p = 0.7 r = 10.69
 n = 100 p = 0.7 r = 5.19
-temps Dichotomoie : 679.76657605
+temps Dichotomie : 679.76657605 secondes

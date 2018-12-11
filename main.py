@@ -1,14 +1,13 @@
 #-*- coding: utf_8 -*-
 from graphe import *
-import time
 
-
-# graphe aleatoire où chaque arete a une probabilité p d'appartenir au graphe
+# Optionnel, graphe aleatoire où chaque arete a une probabilité p d'appartenir au graphe
+# Attention utilise la librairie igraph
 def visualisationGrapheAleatoire(n,p,r) :
 
     graphe = Graphe()
     graphe.intialiserGrapheAleatoire(n,p,r)
-    graphe.affichageGrapheAleatoire()
+    # graphe.affichageGrapheAleatoire()
 
 
 # calcul de la probabilite d'avoir une séquence 2-destructrice
@@ -67,11 +66,11 @@ def trouverRDichotomie(n,p,nbExperiences):
             interval_inf_r = abs(interval_inf_r - interval_r/2)
 
     if prob_sup > 0.4951 and prob_sup < 0.5051 :
-        print("n = " + str(n) + " p = "+ str(p) + " r = %.2f"%(interval_sup_r*100))
-        return
+        # print("n = " + str(n) + " p = "+ str(p) + " r = %.2f"%(interval_sup_r*100))
+        return interval_sup_r
     if prob_inf > 0.4951 and prob_inf < 0.5051 :
-        print("n = " + str(n) + " p = "+ str(p) + " r = %.2f"%(interval_inf_r*100))
-        return
+        # print("n = " + str(n) + " p = "+ str(p) + " r = %.2f"%(interval_inf_r*100))
+        return interval_inf_r
     
     
 """
@@ -123,19 +122,28 @@ def algoTrouverLesRI() :
     trouverRIteratif(50,0.7,800)
     trouverRIteratif(100,0.7,800)
 
+"""
+Qui étant donné n,p,r en paramètre, retourne la probabilité qu'un graphe, où chaque sommet a une probabilité r d'être rouge, 
+admette une séquence 2-destructrice.
+"""
+def testA(n,p,r) :
+
+    moyenne = repeteRandom(n,p,r,800)      
+    print("TestA : probabilité d'avoir une séquence 2-destructrice = %.2f" %(moyenne*100))
+
+"""
+Qui étant donné n,p,r en paramètre, retourne la valeur de r pour laquelle si la proportion de sommets rouges est r, alors le graphe a une probabilité proche de 1/2
+d'avoir une séquence 2-destructrice
+"""
+def testB(n,p) :
+    r = trouverRDichotomie(n,p,800)
+    print("TestB : n = " + str(n) + " p = "+ str(p) + " r = %.2f"%(r*100))
+
+
 def main() :
 
-    # visualisationGrapheAleatoire(10,0.7,0.3)
-
-    debutD = time.time()
-    algoTrouverLesRD()
-    finD = time.time()
-    print("temps Dichotomoie : %.8f" %(finD - debutD))
-
-    debutR = time.time()
-    algoTrouverLesRI()
-    finR = time.time()
-    print("temps Iteratif : %.8f" %(finR - debutR))
+    testA(50,0.5,0.2)
+    # testB(50,0.5)
     
 
 main()
